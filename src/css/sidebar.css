@@ -1,0 +1,91 @@
+ .sidebar {
+    flex:0.35;
+    background-color: #fff;
+ }
+
+ .sidebar__header {
+    display: flex;
+    justify-content: space-between;
+    border-right: 1px solid lightgray;
+    padding: 10px;
+    background-color: #ededed;
+ }
+
+ .sidebar__headerRight{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 10vw;
+}
+
+.sidebar .sidebar__headerRight svg {
+     font-size: 18px;
+ }
+
+ .sidebar__search {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f6f6f6;
+    height: 40px;
+ }
+
+ .sidebar__searchContainer {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    height: 35px;
+    border-radius: 20px;
+    width: 100%;
+ }
+
+ .sidebar__searchContainer input {
+    border: 0;
+    margin-left: 10px;
+    outline: 0;
+    width: 100%;
+ }
+
+ .sidebar__chats {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+ }
+
+ .sidebar__chatComp {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea;
+ }
+
+ .sidebar__chatComp:hover {
+    cursor: pointer;
+    background-color: #ebebeb;
+ }
+
+ .sidebar__chatInfo {
+    margin-left:15px ;
+   text-decoration: none;
+ }
+
+ .sidebar__chatInfo h2 {
+    font-size: 16px;
+    text-decoration: none;
+ }
+
+ .sidebar__chatInfo p {
+    font-size: 12px;
+    text-decoration: none;
+ }
+
+ .sidebar__chatComp>h2{
+    margin-left: 10px ;
+    font-size: 18px;
+    cursor: pointer;
+ }
+
+ .sidebar__chatComp .MuiAvatar-circular {
+    width: 30px;
+    height: 30px;
+ }
