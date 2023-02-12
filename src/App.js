@@ -36,7 +36,7 @@ function App() {
                 </Route>
                 <Route path='/room/:roomId'>
                   <Chat/>
-                </Route>
+                </Route> 
               </div>
             </div>
           )
