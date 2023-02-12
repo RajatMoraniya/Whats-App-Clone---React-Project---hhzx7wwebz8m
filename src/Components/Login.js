@@ -1,7 +1,9 @@
-import React from 'react'
-import '../css/login.css'
-import {auth , provider} from '../firebase' 
-import { useStateValue } from '../StateProvider'
+import React from 'react';
+import '../css/login.css';
+import {auth , provider} from '../firebase';
+import { useStateValue } from '../StateProvider';
+import wplogo from './images/whatsappLogo.png';
+import gLogo from './images/googleLogo.png';
 
 function Login() {
 
@@ -15,15 +17,15 @@ function Login() {
         type:"SET_USER",
         user:result.user
       })
-    }).catch(err=>alert(err))
+    }).catch(err=>alert("❗Log in failed\nTry Again🟢🟠🔵"))
   }
 
   return (
     <div className='login__wrapper'>
         <div className="login">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1024px-WhatsApp.svg.png" alt="whatsapp logo" />
-            <h2>Sign in to Whatsapp</h2>
-            <button onClick={signIn}>Log in with Google</button>
+            <img src={wplogo} alt="whatsapp logo" />
+            <h2>Sign in to Whatsapp </h2>
+            <button onClick={signIn}><img src={gLogo} alt="Google" className='login__google'/>Log in</button>
         </div>
     </div>
   )

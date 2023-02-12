@@ -1,15 +1,18 @@
+
 .login__wrapper {
     display: grid;
     place-items: center;
     height: 100vh;
+    background-color: antiquewhite;
 }
 
 .login {
     width: 400px;
-    background-color: rgb(223, 223, 223);
+    background-color: rgb(65, 231, 150);
     padding: 22px;
     text-align: center;
     border-radius: 20px;
+    box-shadow: -1px 4px 20px -6px #000;
 }
 
 .login img {
@@ -21,12 +24,25 @@
 }
 
 .login button {
-    background-color: #3fc350;
+    display: flex;
+    align-items: center;
+    margin: auto auto;
+    background-color: #2146c1;
     color: #fff;
     border: 0px;
     padding: 10px 20px;
-    text-transform: uppercase;
     letter-spacing: 2px;
-    cursor: pointer;
     margin-top: 20px;
+    border-radius: 30px;
+    box-shadow: -1px 4px 20px -6px #000;
+}
+
+.login button:hover {
+    cursor: pointer;
+    background-color: #08300e;
+}
+
+img.login__google {
+    width: 2vw;
+    padding-right: 5px;
 }

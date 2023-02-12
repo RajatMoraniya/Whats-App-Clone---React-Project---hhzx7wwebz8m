@@ -36,10 +36,10 @@
 }
 
 .chat__body {
-    background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+    background-image: url("../Components/images/chatBG.png");
     flex:1;
     padding: 25px 10px;
-    overflow-y: auto;
+    overflow-y:auto;
 }
 
 .chat__body .chat__message {
@@ -77,8 +77,10 @@
 }
 
 .chat__footer svg {
-    padding: 10px;
+    padding: 10;
     color: gray;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
 }
 
@@ -91,6 +93,8 @@
     height: 40px;
     outline: 0;
     width: 100%;
+    border-radius: 30px;
+    padding-left: 10px;
 }
 
 .chat__footer form input[type="submit"] {
