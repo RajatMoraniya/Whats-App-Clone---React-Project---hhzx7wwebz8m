@@ -35,8 +35,10 @@ function Chat() {
     
     const sendMessage = (e) => {
         e.preventDefault();
-        if(input===""){
-            alert("Please Enter Your Text");
+        if(input.trim()===""){
+            alert("Please Enter Your Text❗");
+            setInput("");
+            return;
         }
 
         db.collection('rooms').doc(roomId).collection('message').add({
@@ -79,7 +81,7 @@ function Chat() {
         <div className="chat__body">
             {
                 messages.map(message=>(
-                    <p className={`chat__message ${user.displayName==message.name && `chat__reciever`}`}>
+                    <p className={`chat__message ${user.displayName==message.name && `chat__sender`}`}>
                         <span className="chat__name">{message.name}</span>
                         {message.message}
                         <span className="chat__time">{

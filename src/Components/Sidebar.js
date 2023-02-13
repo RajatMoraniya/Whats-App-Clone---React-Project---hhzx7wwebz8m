@@ -15,7 +15,7 @@ import firebase from "firebase/compat/app";
 
 function Sidebar() {
 
-    const [{user},dispatch] = useStateValue();
+    const [{user}] = useStateValue();
     const [rooms, setRooms] = useState([])
     useEffect(() => {
         db.collection("rooms").onSnapshot(snapShot=>{
@@ -25,8 +25,6 @@ function Sidebar() {
             })))
         })
     }, [])
-
-    //   console.log(rooms)
     
   return (
     <div className='sidebar'>
