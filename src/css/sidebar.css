@@ -10,7 +10,13 @@
     border-right: 1px solid lightgray;
     padding: 10px;
     background-color: #ededed;
- }
+ } 
+
+ .slidebar_headerLeft {
+   display: flex;
+   align-items: center;
+   font-size: 18px;
+}
 
  .sidebar__headerRight{
     display: flex;
@@ -51,6 +57,7 @@
     display: flex;
     flex-direction: column;
     background-color: #fff;
+ 
  }
 
  .sidebar__chatComp {

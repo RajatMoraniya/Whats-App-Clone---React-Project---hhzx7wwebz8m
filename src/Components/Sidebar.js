@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Avatar,IconButton } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import '../css/sidebar.css';
@@ -10,6 +11,7 @@ import db from '../firebase'
 import { useStateValue } from '../StateProvider';
 import 'firebase/compat/auth';
 import firebase from "firebase/compat/app";
+
 
 function Sidebar() {
 
@@ -30,7 +32,12 @@ function Sidebar() {
     <div className='sidebar'>
       
         <div className="sidebar__header">
-            <Avatar src={user.photoURL} onClick={e=>firebase.auth().signOut()}/>
+            <div className="slidebar_headerLeft">
+                <Avatar src={user.photoURL} />
+                <IconButton>
+                        <LogoutIcon onClick={e=>firebase.auth().signOut()}/>
+                </IconButton>
+            </div>
 
             <div className="sidebar__headerRight">
                 <IconButton>

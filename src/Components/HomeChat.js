@@ -1,5 +1,6 @@
 import React from 'react'
 import '../css/homeChat.css'
+import wplogo from './images/whatsappLogo.png';
 
 function HomeChat() {
 
@@ -7,8 +8,7 @@ function HomeChat() {
   return (
     <div className='chat__homechat'>
         <div className='homechat__instruction'>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/1024px-WhatsApp.svg.png" alt="Select Any Chat" />
-            <h2></h2>
+            <img src={wplogo} alt="Select Any Chat" />
         </div>
     </div>
   )
