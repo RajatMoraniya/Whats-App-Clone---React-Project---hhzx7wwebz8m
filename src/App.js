@@ -27,18 +27,19 @@ function App() {
     <Router>
       <Switch>
         { !user ? (<Login/>) :
-          (
-            <div className="App">
-              <div className="app__body">
-                <Sidebar/>
-                <Route exact path='/'>
-                  <HomeChat/>
-                </Route>
-                <Route path='/room/:roomId'>
-                  <Chat/>
-                </Route> 
+          (<>
+              <div className="App">
+                <div className="app__body">
+                  <Sidebar/>
+                  <Route exact path='/'>
+                    <HomeChat/>
+                  </Route>
+                  <Route path='/room/:roomId'>
+                    <Chat/>
+                  </Route> 
+                </div>
               </div>
-            </div>
+            </>
           )
         }
       </Switch>

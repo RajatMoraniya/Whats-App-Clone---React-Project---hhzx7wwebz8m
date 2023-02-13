@@ -34,8 +34,8 @@ function Sidebar() {
         <div className="sidebar__header">
             <div className="slidebar_headerLeft">
                 <Avatar src={user.photoURL} />
-                <IconButton>
-                        <LogoutIcon onClick={e=>firebase.auth().signOut()}/>
+                <IconButton onClick={e=>firebase.auth().signOut()}>
+                        <LogoutIcon />
                 </IconButton>
             </div>
 
