@@ -1,74 +1,119 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from "react";
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import ChatIcon from '@mui/icons-material/Chat';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Avatar,IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SearchIcon from '@mui/icons-material/Search';
-import '../css/sidebar.css';
-import SidebarChat from './SidebarChat';
-import db from '../firebase'
-import { useStateValue } from '../StateProvider';
-import 'firebase/compat/auth';
-import firebase from "firebase/compat/app";
+import SearchIcon from "@mui/icons-material/Search";
+import "./sideBar.css";
+import UserProfile from "./UserProfile";
+import { useEffect } from "react";
+import db from "../firebase";
 
+function SideBar({ currentUser, signOut }) {
+  const [allUsers, setAllUsers] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [friendList, setFriendList] = useState([]);
 
-function Sidebar() {
+  useEffect(() => {
+    const getAllUsers = async () => {
+      //eslint-disable-next-line
+      const data = await db.collection("users").onSnapshot((snapshot) => {
+        setAllUsers(
+          snapshot.docs.filter((doc) => doc.data().email !== currentUser?.email)
+        );
+      });
+    };
 
-    const [{user}] = useStateValue();
-    const [rooms, setRooms] = useState([])
-    useEffect(() => {
-        db.collection("rooms").onSnapshot(snapShot=>{
-            setRooms(snapShot.docs.map(doc=>({
-                id:doc.id,
-                data:doc.data()
-            })))
-        })
-    }, [])
-    
+    const getFriends = async () => {
+      const data = await db
+        .collection("Friendlist")
+        .doc(currentUser.email)
+        .collection("list")
+        .onSnapshot((snapshot) => {
+          setFriendList(snapshot.docs);
+        });
+    };
+
+    getAllUsers();
+    getFriends();
+  }, []);
+
+  const searchedUser = allUsers.filter((user) => {
+    if (searchInput) {
+      if (
+        user.data().fullname.toLowerCase().includes(searchInput.toLowerCase())
+      ) {
+        return user;
+      }
+    }
+  });
+
+  const searchItem = searchedUser.map((user) => {
+    return (
+      <UserProfile
+        name={user.data().fullname}
+        photoURL={user.data().photoURL}
+        key={user.id}
+        email={user.data().email}
+      />
+    );
+  });
+
+  function confirmLogout() {
+    const logout = window.confirm("Log Out...🔴🟠🔵");
+    if (logout) signOut();
+  }
+
   return (
-    <div className='sidebar'>
-      
-        <div className="sidebar__header">
-            <div className="slidebar_headerLeft">
-                <Avatar src={user.photoURL} />
-                <IconButton onClick={e=>firebase.auth().signOut()}>
-                        <LogoutIcon />
-                </IconButton>
-            </div>
-
-            <div className="sidebar__headerRight">
-                <IconButton>
-                    <ChatIcon/>
-                </IconButton>
-
-                <IconButton>
-                    <DonutLargeIcon/>
-                </IconButton>
-
-                <IconButton>
-                    <MoreVertIcon/>
-                </IconButton>
-            </div>
+    <div className="sidebar">
+      <div className="sidebar-header">
+        <div className="slidebar_headerLeft">
+          <Avatar src={currentUser?.photoURL}/>
+          <IconButton onClick={confirmLogout}>
+            <LogoutIcon/>
+          </IconButton>
         </div>
-
-        <div className="sidebar__search">
-            <div className="sidebar__searchContainer">
-                <SearchIcon/>
-                <input type="text" placeholder='Search or Start a new Chat' />
-            </div>
+        <div className="sidebar__headerRight">
+          <IconButton>
+            <DonutLargeIcon/>
+          </IconButton> 
+          <IconButton onClick={() => setFriendList(allUsers)} >
+            <ChatIcon />
+          </IconButton>
+          <IconButton>
+            <MoreVertIcon/>
+          </IconButton>
         </div>
+      </div>
 
-        <div className="sidebar__chats">
-            <SidebarChat addNewChat/>
-            {
-                rooms.map((room)=>{
-                    return <SidebarChat key={room.id} id={room.id} name={room.data.name}/>
-                })
-            }
+      <div className="sidebar-search">
+        <div className="sidebar-searchContainer">
+          <SearchIcon />
+          <input
+            type="text"
+            name="search"
+            placeholder="Search or Start a new Chat"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
         </div>
+      </div>
+      <div className="sidebar-chat-list">
+        {searchItem.length > 0
+          ? searchItem
+          : friendList.map((friend) => (
+              <UserProfile
+                key={friend.data().email}
+                name={friend.data().fullname}
+                photoURL={friend.data().photoURL}
+                lastMessage={friend.data().lastMessage}
+                email={friend.data().email}
+              />
+            ))}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default SideBar;

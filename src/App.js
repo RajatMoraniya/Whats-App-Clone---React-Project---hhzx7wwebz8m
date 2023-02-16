@@ -1,48 +1,32 @@
 import './App.css';
-import Chat from './Components/Chat';
-import Sidebar from './Components/Sidebar';
-import HomeChat from './Components/HomeChat';
-import {BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Login from './Components/Login';
-import { useStateValue } from './StateProvider';
-import React,{ useEffect } from 'react';
+import {BrowserRouter as Router, Routes , Route} from 'react-router-dom';
+import Home from './Components/Home'
+import Chatpage from './Components/ChatPage';
+import { useState } from 'react';
+import Login from './Components/Login'
 import { auth } from './firebase';
 
 function App() {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
-  const [{user},dispatch] = useStateValue();
-
-  useEffect(() => {
-    auth.onAuthStateChanged(user=>{
-      dispatch({
-        type:"SET_USER",
-        user:user
-      })
+  const signOut = () => {
+    auth.signOut()
+    .then(()=>{
+      setUser(null);
+      localStorage.removeItem('user');
     })
-  }, [])
-  
-  
+    .catch((err)=>alert(err.message));
+  }
   return (
-    
     <Router>
-      <Switch>
-        { !user ? (<Login/>) :
-          (<>
-              <div className="App">
-                <div className="app__body">
-                  <Sidebar/>
-                  <Route exact path='/'>
-                    <HomeChat/>
-                  </Route>
-                  <Route path='/room/:roomId'>
-                    <Chat/>
-                  </Route> 
-                </div>
-              </div>
-            </>
-          )
-        }
-      </Switch>
+        <div className="App">
+          { user ? 
+            (<Routes>
+                <Route exact path="/" element={<Home currentUser={user} signOut={signOut}/>}/>
+                <Route path="/:emailID" element={<Chatpage currentUser={user} signOut={signOut}/>}/>
+            </Routes>) : (<Login setUser={setUser}/>)
+          }
+        </div>
     </Router>
   );
 }
