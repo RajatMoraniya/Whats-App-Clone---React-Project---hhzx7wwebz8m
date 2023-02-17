@@ -20,20 +20,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  text-transform: capitalize;
 }
 
 .chat-user-name {
-  flex: 1;
   margin-left: 10px;
+  text-transform: capitalize;
 }
 
 .chat-user-name h3 {
   font-size: 16px;
+  margin:0;
 }
 
 .chat-user-name p {
   font-size: 12px;
+  margin: 0;
 }
 
 .chat-header-right {

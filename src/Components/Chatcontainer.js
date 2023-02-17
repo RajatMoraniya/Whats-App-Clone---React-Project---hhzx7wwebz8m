@@ -21,6 +21,7 @@ function Chatcontainer({ currentUser }) {
   const { emailID } = useParams();
   const [chatUser, setChatUser] = useState({});
   const [chatMessages, setChatMessages] = useState([]);
+  const [lastseen, setLastseen] = useState();
   const chatBox = useRef(null);
 
   useEffect(() => {
@@ -59,11 +60,19 @@ function Chatcontainer({ currentUser }) {
       const { currentTarget: target } = event;
       target.scroll({ top: target.scrollHeight, behaviour: "smooth" });
     });
+    
+    //last seen setup
+    chatMessages.map(message=>{
+      if(message.senderEmail===emailID){
+        setLastseen(message.timeStamp)
+      }
+    })
   }, [chatMessages]);
 
   const send = (e) => {
     e.preventDefault();
 
+    // message
     if (emailID && message.trim()!=="") {
       let payload = {
         text: message,
@@ -71,14 +80,12 @@ function Chatcontainer({ currentUser }) {
         receiverEmail: emailID,
         timeStamp: firebase.firestore.Timestamp.now(),
       };
-      // sender
-      db.collection("chats")
-        .doc(currentUser.email)
-        .collection("messages")
-        .add(payload);
-      // reciever
+      // message sender
+      db.collection("chats").doc(currentUser.email).collection("messages").add(payload);
+      // message reciever
       db.collection("chats").doc(emailID).collection("messages").add(payload);
 
+      //friendlist currUSer
       db.collection("Friendlist")
         .doc(currentUser.email)
         .collection("list")
@@ -87,8 +94,11 @@ function Chatcontainer({ currentUser }) {
           email: chatUser.email,
           fullname: chatUser.fullname,
           photoURL: chatUser.photoURL,
-          lastMessage: message,
+          lastMessage:message.length<50 ? message : message.slice(0,50)+".......",
+          lastMessageTime: firebase.firestore.Timestamp.now(),
         });
+
+        //friendlist secondPerson
       db.collection("Friendlist")
         .doc(emailID)
         .collection("list")
@@ -97,7 +107,8 @@ function Chatcontainer({ currentUser }) {
           email: currentUser.email,
           fullname: currentUser.fullname,
           photoURL: currentUser.photoURL,
-          lastMessage: message,
+          lastMessage:message.length<50 ? message : message.slice(0,50)+".......",
+          lastMessageTime: firebase.firestore.Timestamp.now(),
         });
 
       }
@@ -111,10 +122,10 @@ function Chatcontainer({ currentUser }) {
           <Avatar src={chatUser?.photoURL} />
           <div className="chat-user-name">
             <h3>{chatUser?.fullname}</h3>
-            {/* <p>Last Seen at {
-                    new Date(chatMessages[chatMessages.length-1]?.timestamp?.seconds*1000)
-                    .toLocaleTimeString()
-            }</p> */}
+            <p>Last Seen on.. {
+                    new Date(lastseen?.seconds*1000)
+                    .toLocaleString()
+            }</p>
           </div>
         </div>
         <div className="chat-header-right">
@@ -132,11 +143,13 @@ function Chatcontainer({ currentUser }) {
         </div>
       </div>
       <div className="chat-display-container" ref={chatBox}>
-        {chatMessages.map((message) => (
+        {chatMessages.map((message) =>
+       (
           <ChatMessage
             message={message.text}
             time={message.timeStamp}
             sender={message.senderEmail}
+            key={message.timeStamp}
           />
         ))}
       </div>

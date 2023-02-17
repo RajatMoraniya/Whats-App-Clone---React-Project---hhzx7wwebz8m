@@ -13,11 +13,9 @@ function ChatMessage({ message, time, sender }) {
           sender === auth?.currentUser?.email ? "#dcf8c6" : "#fff",
       }}
     >
-      <div className="chat-message-text">
-        <p>{message}</p>
-      </div>
+      <p className="chat-message-text">{message}</p>
       <div className="chat-message-date">
-        <p>{new Date(time.toDate()).toLocaleTimeString()}</p>
+        <p>{new Date(time.toDate()).toLocaleString()}</p>
       </div>
     </div>
   );

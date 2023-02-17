@@ -108,6 +108,7 @@ function SideBar({ currentUser, signOut }) {
                 name={friend.data().fullname}
                 photoURL={friend.data().photoURL}
                 lastMessage={friend.data().lastMessage}
+                lastMessageTime={friend.data().lastMessageTime}
                 email={friend.data().email}
               />
             ))}
